@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المفكرة - حصاد أصفر وزراعة أخضر</title>
+<style>
+:root{--primary-green:#2e7d32;--harvest-yellow:#ffca28;--harvest-border:#f57f17;--light-bg:#f1f8e9}
+body{font-family:'Segoe UI',sans-serif;background:var(--light-bg);padding:20px}
+.container{max-width:900px;margin:auto;background:white;padding:20px;border-radius:15px}
+.view-section{margin-bottom:30px;border-bottom:2px solid #eee;padding-bottom:20px}
+.task-list{max-height:350px;overflow-y:auto;border:1px solid #ddd;border-radius:8px}
+.task-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;cursor:pointer}
+.task-item:hover{background:#f1f8e9}
+.task-item.active{background:#fff9c4;border-right:4px solid var(--harvest-yellow)}
+.harvest-badge{background:var(--harvest-yellow);color:#000;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:bold;border:1px solid var(--harvest-border)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center;margin-top:10px}
+.day{padding:10px;border:1px solid #ddd;border-radius:5px;min-height:65px}
+.highlight-plant{background:#2e7d32!important;color:white!important;font-weight:bold;border:2px solid #1b5e20!important}
+.highlight-harvest{background:#ffca28!important;color:#000!important;font-weight:bold;border:2px solid #f57f17!important}
+.crop-label{font-size:9px;display:block;margin-top:4px;border-radius:3px;padding:2px;font-weight:bold}
+.alert-box{background:#fffde7;border-right:5px solid var(--harvest-yellow);padding:15px;margin:10px 0}
+.btn{background:var(--primary-green);color:white;border:none;padding:8px 15px;cursor:pointer;border-radius:5px}
+.cal-header{display:flex;justify-content:space-between;align-items:center}
+.user-bar{background:#E8F5E9;padding:10px 15px;border-radius:10px;margin-bottom:15px}
+.top-bar{ display:flex; justify-content: flex-end; margin-bottom:15px; }
+.btn-back{ background:#fff; color:var(--primary-green); border:1.5px solid var(--primary-green); padding:8px 18px; border-radius:20px; font-weight:700; text-decoration:none; display:inline-block; }
+.btn-back:hover{ background:var(--primary-green); color:#fff; }
+.footer-actions{ display:flex; justify-content: center; margin-top:25px; }
+.btn-admin{ background:var(--primary-green); color:#fff; border:none; padding:11px 24px; border-radius:8px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 8px rgba(46,125,50,0.3); font-size:14px; }
+.btn-admin:hover{ background:#1b5e20; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="top-bar">
+    <a href="index.html" class="btn-back">← رجوع</a>
+</div>
+
+<div class="user-bar">
+<span id="welcomeUser">مرحبا</span>
+</div>
+
+<h1 style="color:#2e7d32;text-align:center;">🌱 المفكرة - زراعة 🟩 وحصاد 🟨</h1>
+
+<div class="view-section">
+<h3>📋 مهامي أنا فقط</h3>
+<p style="font-size:13px;color:#666;">دوس على أي مهمة عشان التقويم يمشي لتاريخها</p>
+<div class="task-list" id="allTasksList"></div>
+</div>
+
+<div class="view-section">
+<div class="cal-header">
+<button class="btn" onclick="changeMonth(-1)">◀ السابق</button>
+<h3 id="calendarTitle">التقويم</h3>
+<button class="btn" onclick="changeMonth(1)">القادم ▶</button>
+</div>
+<div class="calendar-grid" id="monthGrid"></div>
+</div>
+
+<div id="todayInfo" class="alert-box" style="display:none;"></div>
+
+<div class="footer-actions">
+    <a href="الادارة.html" class="btn-admin">⚙️ الرجوع للإدارة</a>
+</div>
+
+</div>
+
+<script>
+let currentUser = JSON.parse(localStorage.getItem('farm_currentUser'));
+if(!currentUser){ window.location.href='login.html'; } else { document.getElementById('welcomeUser').innerText = '👋 ' + currentUser.name; }
+let viewDate = new Date(); let allCrops = [];
+function calculateHarvest(plantDate, duration){ let d = new Date(plantDate); d.setDate(d.getDate() + parseInt(duration)); return d; }
+function loadCrops(){
+    let rawAll = JSON.parse(localStorage.getItem('farm_allCrops') || '[]');
+    let rawOld = JSON.parse(localStorage.getItem('myCrops') || '[]');
+    if(rawOld.length > 0 && rawAll.length === 0){ rawAll = rawOld.map(c => ({...c, userId: currentUser.id})); localStorage.setItem('farm_allCrops', JSON.stringify(rawAll)); }
+    const myRaw = rawAll.filter(c => c.userId === currentUser.id);
+    allCrops = myRaw.map(c => { let hDate = calculateHarvest(c.plantDate, c.duration); return {...c, harvestDate: hDate, harvestStr: hDate.toISOString().split('T')[0] }; }).sort((a,b) => new Date(a.harvestDate) - new Date(b.harvestDate));
+}
+function renderAllTasks(){
+    const list = document.getElementById('allTasksList'); list.innerHTML = '';
+    if(allCrops.length === 0){ list.innerHTML = '<p style="padding:15px;text-align:center;">لا توجد مهام خاصة بك</p>'; return; }
+    allCrops.forEach(crop => {
+        const today = new Date(); today.setHours(0,0,0,0);
+        const diff = Math.ceil((crop.harvestDate - today)/(1000*60*60*24));
+        let status = diff <= 0? 'جاهز للحصاد' : diff <= 7? `متبقي ${diff} يوم` : `بعد ${diff} يوم`;
+        list.innerHTML += `<div class="task-item" id="task-${crop.id}" onclick="goToDate('${crop.harvestStr}', ${crop.id})"><div><strong>🌾 ${crop.name}</strong><br><small>🟩 ${crop.plantDate} | 🟨 ${crop.harvestStr}</small></div><div><span class="harvest-badge">حصاد: ${status}</span></div></div>`;
+    });
+}
+function goToDate(dateStr, id){ viewDate = new Date(dateStr); document.querySelectorAll('.task-item').forEach(el=>el.classList.remove('active')); document.getElementById(`task-${id}`).classList.add('active'); renderCalendar(); const crop = allCrops.find(c => c.id === id); const info = document.getElementById('todayInfo'); info.style.display = 'block'; info.innerHTML = `🟨 <strong>مهمة حصاد:</strong> ${crop.name}<br>🟩 زراعة: ${crop.plantDate}<br>🟨 حصاد: ${crop.harvestStr}`; }
+function changeMonth(step){ viewDate.setMonth(viewDate.getMonth()+step); renderCalendar(); }
+function renderCalendar(){
+    const year = viewDate.getFullYear(), month = viewDate.getMonth();
+    document.getElementById('calendarTitle').innerText = viewDate.toLocaleDateString('ar-EG',{month:'long',year:'numeric'});
+    const firstDay = new Date(year,month,1).getDay(); const daysInMonth = new Date(year,month+1,0).getDate();
+    const grid = document.getElementById('monthGrid'); grid.innerHTML='';
+    ['سبت','أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة'].forEach(d=>{grid.innerHTML+=`<div style="font-weight:bold;color:#2e7d32">${d}</div>`;});
+    for(let i=0;i<firstDay;i++) grid.innerHTML+=`<div class="day" style="opacity:0.2"></div>`;
+    for(let day=1;day<=daysInMonth;day++){
+        let dayDiv=document.createElement('div'); dayDiv.className='day'; dayDiv.innerHTML=`<span>${day}</span>`;
+        allCrops.forEach(crop=>{
+            let plantD=new Date(crop.plantDate); let harvestD=crop.harvestDate;
+            if(plantD.getDate()===day && plantD.getMonth()===month && plantD.getFullYear()===year){ dayDiv.classList.add('highlight-plant'); dayDiv.innerHTML+=`<span class="crop-label" style="background:#1b5e20;color:white;">🟩 زراعة ${crop.name}</span>`; }
+            if(harvestD.getDate()===day && harvestD.getMonth()===month && harvestD.getFullYear()===year){ dayDiv.classList.add('highlight-harvest'); dayDiv.innerHTML+=`<span class="crop-label" style="background:#f57f17;color:white;">🟨 حصاد ${crop.name}</span>`; }
+        });
+        grid.appendChild(dayDiv);
+    }
+}
+window.onload = ()=>{ loadCrops(); renderAllTasks(); renderCalendar(); };
+</script>
+</body>
+</html>

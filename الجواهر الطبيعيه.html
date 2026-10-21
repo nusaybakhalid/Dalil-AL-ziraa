@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>دليل النباتات والخضروات</title>
+ <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+*{box-sizing:border-box}
+body{background:#f5fbf5;margin:0;font-family:'Cairo',sans-serif;padding-top:60px}
+.med-section-pro{margin:40px auto;max-width:1300px;padding:0 30px}
+.section-title{text-align:center;font-size:32px;color:#1e4d1e;margin-bottom:40px;font-weight:700}
+.cards-grid-matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;padding:20px 0}
+.flip-card-pro{width:100%;height:220px;cursor:pointer;perspective:1000px}
+.flip-card-inner-pro{position:relative;width:100%;height:100%;transition:transform 0.7s;transform-style:preserve-3d;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.flip-card-pro.active .flip-card-inner-pro{transform:rotateY(180deg)}
+.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.face-front{background:#fff;border:2px solid #e0f2e0;transition:0.3s}
+.face-front:hover{border-color:#7CFF7C;transform:translateY(-5px)}
+.face-front h3{font-size:1.3em;color:#2d5a2d;font-weight:700;margin:0}
+.face-back{background:linear-gradient(135deg,#7CFF7C,#4CAF50);color:white;transform:rotateY(180deg);font-size:1em;text-align:center;line-height:1.6;padding:25px}
+.plant-img{width:85px!important;height:85px!important;object-fit:contain;margin-bottom:12px;display:block}
+ </style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;background:#2E7D32;color:#fff;padding:10px 22px;border-radius:30px;font-weight:800;text-decoration:none;">← رجوع</a>
+<div class="med-section-pro">
+<h2 class="section-title">🌿 دليل النباتات والخضروات</h2>
+<div class="cards-grid-matrix">
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/nn.jpg.jpg" class="plant-img"><h3>النعناع</h3></div><div class="card-face face-back"><p>مهدئ للأعصاب والهضم</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/garlic.jpg.jpg" class="plant-img"><h3>الثوم</h3></div><div class="card-face face-back"><p>مضاد حيوي طبيعي</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/carrot.jpg.jpg" class="plant-img"><h3>الجزر</h3></div><div class="card-face face-back"><p>يقوي النظر</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/tomato.jpg.jpg" class="plant-img"><h3>الطماطم</h3></div><div class="card-face face-back"><p>تحمي القلب</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/onion.jpg.jpg" class="plant-img"><h3>البصل</h3></div><div class="card-face face-back"><p>مقاوم للفيروسات</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/mm.jpg.jpg" class="plant-img"><h3>الزنجبيل</h3></div><div class="card-face face-back"><p>مضاد للغثيان</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/parsley.jpg.jpg" class="plant-img"><h3>البقدونس</h3></div><div class="card-face face-back"><p>مطهر للكلى</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/pepper.jpg.jpg" class="plant-img"><h3>الفلفل</h3></div><div class="card-face face-back"><p>غني بفيتامين سي</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/potato.jpg.jpg" class="plant-img"><h3>البطاطس</h3></div><div class="card-face face-back"><p>مصدر طاقة</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/cucumber.jpg.jpg" class="plant-img"><h3>الخيار</h3></div><div class="card-face face-back"><p>مرطب طبيعي</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/zaatar.jpg.jpg" class="plant-img"><h3>الزعتر</h3></div><div class="card-face face-back"><p>معالج للسعال</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/kurkum.jpg.jpg" class="plant-img"><h3>الكركم</h3></div><div class="card-face face-back"><p>مضاد التهاب</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/lime.jpg.jpg" class="plant-img"><h3>الليمون</h3></div><div class="card-face face-back"><p>طارد للسموم</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/rihan.jpg.jpg" class="plant-img"><h3>الريحان</h3></div><div class="card-face face-back"><p>يقلل التوتر</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/khass.jpg.jpg" class="plant-img"><h3>الخس</h3></div><div class="card-face face-back"><p>غني بالألياف</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/strawberry.jpg.jpg" class="plant-img"><h3>الفراولة</h3></div><div class="card-face face-back"><p>مضادة للأكسدة</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/grapes.jpg.jpg" class="plant-img"><h3>العنب</h3></div><div class="card-face face-back"><p>منشط للدورة الدموية</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/cauliflower.jpg.jpg" class="plant-img"><h3>القرنبيط</h3></div><div class="card-face face-back"><p>يقوي العظام</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/eggplant.jpg.jpg" class="plant-img"><h3>الباذنجان</h3></div><div class="card-face face-back"><p>مفيد للدماغ</p></div></div></div>
+<div class="flip-card-pro" onclick="this.classList.toggle('active')"><div class="flip-card-inner-pro"><div class="card-face face-front"><img src="images/spinach.jpg.jpg" class="plant-img"><h3>الجرجير</h3></div><div class="card-face face-back"><p>غني بالحديد</p></div></div></div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل الأدوات المناسبة</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+:root { --primary-green: #4CAF50; --light-bg: #F8FBF8; }
+body { background: var(--light-bg); font-family: 'Cairo', sans-serif; margin: 0; padding: 20px; }
+.container { max-width: 900px; margin: 0 auto; }
+.top-bar{ display:flex; justify-content:flex-end; margin-bottom:15px; }
+.btn-back{ background:#fff; color:#2E7D32; border:1.5px solid #2E7D32; padding:8px 18px; border-radius:20px; font-weight:700; cursor:pointer; font-family:'Cairo'; font-size:14px; text-decoration:none; display:inline-block; }
+.btn-back:hover{ background:#2E7D32; color:#fff; }
+.tools-section { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1); border: 1px solid #E8F5E9; }
+.crops-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+@media(max-width:600px){.crops-grid{ grid-template-columns: repeat(2, 1fr); } }
+.crop-card { background: #F9FFF9; border: 2px solid #E8F5E9; padding: 16px 8px; border-radius: 14px; text-align: center; cursor: pointer; transition:0.3s; }
+.crop-card:hover{ border-color:var(--primary-green); transform:translateY(-3px); }
+.crop-card.active { background: #4CAF50; border-color: #4CAF50; }
+.crop-card.active.crop-name { color: #fff!important; }
+.crop-name { font-weight: 700; color: #2E7D32; font-size: 0.9em; }
+
+/* ده المحل البتكبري وتصغري منو الصور */
+.tool-img{
+  width:95px!important;
+  height:95px!important;
+  object-fit:contain;
+  margin:0 auto 10px auto;
+  display:block;
+  background:white;
+  border-radius:12px;
+}
+
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.tool-card { background: #F9F9F9; border: 1.5px solid #e0e0e0; padding: 18px 12px; border-radius: 14px; text-align: center; cursor:pointer; transition:0.3s; }
+.tool-card:hover{ border-color:var(--primary-green); transform:translateY(-3px); }
+.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; padding:20px; }
+.modal.active { display:flex; }
+.modal-box { background:#fff; border-radius:20px; max-width:420px; width:90%; padding:25px; position:relative; }
+.modal-close { position:absolute; top:12px; left:15px; border:none; width:32px; height:32px; border-radius:50%; cursor:pointer; background:#F1F8E9; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <a href="javascript:history.back()" class="btn-back">رجوع ➜</a>
+    </div>
+
+    <div class="tools-section">
+        <h3>🛠️ دليل الأدوات المناسبة</h3>
+        <p style="color:#666;">اختر نوع المحصول لعرض الأدوات:</p>
+        <div class="crops-grid">
+            <!-- غيري اسم الصورة هنا -->
+            <div class="crop-card" onclick="selectCrop(this, 'ورقيات')">
+                <img src="images/waragia.jpg.jpg" class="tool-img" alt="ورقيات">
+                <span class="crop-name">الخضروات الورقية</span>
+            </div>
+            <div class="crop-card" onclick="selectCrop(this, 'ثمرية')">
+                <img src="images/thamaria.jpg.jpg" class="tool-img" alt="ثمرية">
+                <span class="crop-name">المحاصيل الثمرية</span>
+            </div>
+            <div class="crop-card" onclick="selectCrop(this, 'جذرية')">
+                <img src="images/gazaria.jpg.jpg" class="tool-img" alt="جذرية">
+                <span class="crop-name">المحاصيل الجذرية</span>
+            </div>
+            <div class="crop-card" onclick="selectCrop(this, 'أشجار')">
+                <img src="images/ashgar mothmira.jpg.jpg" class="tool-img" alt="أشجار">
+                <span class="crop-name">الأشجار المثمرة</span>
+            </div>
+        </div>
+        <div id="toolsDisplay" class="tools-grid"><p style="color:#999; grid-column:1/-1; text-align:center;">اختر محصول من فوق</p></div>
+    </div>
+</div>
+
+<div id="toolModal" class="modal" onclick="if(event.target.id==='toolModal')this.classList.remove('active')">
+    <div class="modal-box">
+        <button class="modal-close" onclick="document.getElementById('toolModal').classList.remove('active')">✕</button>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<script>
+const toolsDatabase = {
+"ورقيات": [
+    { name: "مرش مائي يدوي", image: "images/marash.jpg.jpg", what: "لرش الماء بشكل ناعم", use: "يستخدم صباحا" },
+    { name: "مقص تقليم صغير", image: "images/mags s.jpg.jpg", what: "لقص الأوراق التالفة", use: "يحسن التهوية" },
+    { name: "أحواض ضيقة", image: "images/ahwad.jpg.jpg", what: "للزراعة المنزلية", use: "للمساحات الصغيرة" }
+],
+"ثمرية": [
+    { name: "خيوط تربيط", image: "images/khuyot.jpg.jpg", what: "لربط سيقان الطماطم", use: "تمنع السقوط" },
+    { name: "دعامات خشبية", image: "images/daamat.jpg.jpg", what: "دعم النباتات", use: "تحمي من الرياح" },
+    { name: "سماد سائل", image: "images/samad.jpg.jpg", what: "لتغذية الثمرية", use: "كل أسبوعين" }
+],
+"جذرية": [
+    { name: "مجرفة يدوية", image: "images/mijeafa.jpg.jpg", what: "لحفر التربة", use: "لاستخراج الجذور" },
+    { name: "شوكة تقليب", image: "images/shoka.jpg.jpg", what: "لتهوية التربة", use: "كل 10 أيام" }
+],
+"أشجار": [
+    { name: "مقص تقليم كبير", image: "images/mags.jpg.jpg", what: "لقص الفروع الجافة", use: "في الشتاء" },
+    { name: "منشار يدوي", image: "images/minshar.jpg.jpg", what: "لقص الأفرع السميكة", use: "للفروع الكبيرة" }
+]
+};
+
+function selectCrop(el, type){
+document.querySelectorAll('.crop-card').forEach(c=>c.classList.remove('active'));
+el.classList.add('active');
+const display=document.getElementById('toolsDisplay'); display.innerHTML='';
+toolsDatabase[type].forEach((tool,i)=>{
+const card=document.createElement('div'); card.className='tool-card';
+card.onclick=()=>openTool(i,type);
+// هنا بتعرض الصورة
+card.innerHTML=`<img src="${tool.image}" class="tool-img" alt="${tool.name}"><span style="font-weight:600">${tool.name}</span>`;
+display.appendChild(card);
+});
+}
+function openTool(index,type){
+const tool=toolsDatabase[type][index];
+document.getElementById('modalContent').innerHTML=`
+<div style="text-align:center"><img src="${tool.image}" class="tool-img" style="width:100px!important;height:100px!important"></div>
+<h3 style="text-align:center;color:#2E7D32">${tool.name}</h3>
+<div style="background:#F8FBF8;padding:12px;border-radius:10px;margin:10px 0"><b style="color:#2E7D32">الوظيفة:</b> ${tool.what}</div>
+<div style="background:#F8FBF8;padding:12px;border-radius:10px"><b style="color:#2E7D32">الاستخدام:</b> ${tool.use}</div>`;
+document.getElementById('toolModal').classList.add('active');
+}
+</script>
+</body>
+</html>

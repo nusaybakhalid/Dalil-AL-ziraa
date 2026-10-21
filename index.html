@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>دليل الزراعة</title>
+ <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', 'Tajawal', sans-serif; }
+    body { background: #F8FFF8; color: #1B5E20; min-height: 100vh; }
+    .navbar { background: #ffffff; box-shadow: 0 2px 15px rgba(76, 175, 80, 0.1); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+    .logo { color: #2E7D32; font-size: 28px; font-weight: 800; }
+    .main ul { display: flex; list-style: none; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .main ul li a { background: #ffffff; border: 2px solid #4CAF50; color: #2E7D32; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-size: 16px; font-weight: 600; transition: 0.3s; display: block; }
+    .main ul li a:hover { background: #4CAF50; color: #ffffff; transform: translateY(-2px); }
+    .content { text-align: center; padding: 50px 5% 80px; background: linear-gradient(180deg, #E8F5E9 0%, #ffffff 100%); }
+    .content h1 { font-size: 48px; line-height: 1.5; margin-bottom: 15px; color: #1B5E20; font-weight: 800; }
+    .content h1 span { color: #4CAF50; font-size: 52px; }
+    .par { font-size: 19px; color: #388E3C; max-width: 650px; margin: 20px auto 10px; line-height: 1.8; font-weight: 500; }
+    .center-nav { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 35px; }
+    .center-nav a { background: #ffffff; border: 2px solid #4CAF50; color: #2E7D32; text-decoration: none; padding: 10px 22px; border-radius: 25px; font-size: 16px; font-weight: 700; transition: 0.3s; }
+    .center-nav a:hover { background: #4CAF50; color: #fff; transform: translateY(-2px); }
+    .welcome-bottom{ margin-top:25px; font-size:20px; font-weight:700; color:#1B5E20; }
+    .tips-container { position: fixed; bottom: 20px; left: 20px; z-index: 1000; max-width: 320px; }
+    .tip-toast { background: #ffffff; color: #1B5E20; padding: 18px 20px; border-radius: 12px; box-shadow: 0 5px 20px rgba(76, 175, 80, 0.2); display: none; animation: slideIn 0.5s ease-out; border-right: 5px solid #4CAF50; font-size: 17px; }
+    @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .tip-header { font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 18px; color: #2E7D32; }
+    .harvest-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .harvest-box { background: #fff; border-radius: 20px; padding: 30px; max-width: 450px; width: 100%; text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.3); animation: popIn 0.4s ease; }
+    @keyframes popIn { from{transform:scale(0.8); opacity:0} to{transform:scale(1); opacity:1} }
+    .harvest-item { background: #FFF3E0; border: 2px solid #FFB74D; padding: 12px; border-radius: 12px; margin: 10px 0; cursor: pointer; transition: 0.3s; font-weight: 700; }
+    .harvest-item:hover { background: #FFE0B2; transform: scale(1.02); }
+    .btn-close { margin-top: 15px; background: #2E7D32; color: #fff; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: 700; }
+    .btn-detail { background: #FF9800; color: #fff; }
+    @media (max-width: 900px) { .content h1 { font-size: 36px; } .content h1 span { font-size: 40px; } }
+ </style>
+</head>
+<body>
+    <div class="main">
+     <div class="navbar">
+      <div class="icon"><h2 class="logo">🌱 دليل الزراعة </h2></div>
+      <div class="main">
+       <ul id="navList">
+            <li id="loginNav"><a href="login.html">تسجيل الدخول</a></li>
+       </ul>
+      </div>
+     </div>
+     <div class="content">
+      
+      <div class="center-nav">
+            <a href="الادارة.html">الإدارة</a>
+            <a href="التقويم الزمني.html">التقويم الزراعي</a>
+            <a href="الادوات.html">الأدوات</a>
+            <a href="الجواهر الطبيعيه.HTML">الجواهر الطبيعية</a>
+      </div>
+
+      <h1> الادارة الذكية للزراعة<br><span>تنبيهات فورية</span></h1>
+      <p class="par">الاستفادة من النصائح التقنية و استخدام ادوات احترافية و متابعة الزراعة بدقة عالية</p>
+      
+      <!-- جملة الترحيب التحت رجعتها -->
+      <div id="welcomeMsg" class="welcome-bottom"></div>
+
+     </div>
+    </div>
+
+    <div class="tips-container">
+        <div id="tipToast" class="tip-toast">
+            <div class="tip-header">💡 نصيحة زراعية:</div>
+            <div id="tipText"></div>
+        </div>
+    </div>
+
+    <div id="harvestOverlay" class="harvest-overlay">
+        <div class="harvest-box">
+            <h2 style="color:#EF6C00; margin-bottom:10px;">🔔 تنبيه حصاد قريب!</h2>
+            <p id="harvestCount" style="margin-bottom:15px; color:#555;"></p>
+            <div id="harvestList"></div>
+            <button class="btn-close" onclick="closeHarvest()">إغلاق</button>
+        </div>
+    </div>
+
+    <div id="detailOverlay" class="harvest-overlay">
+        <div class="harvest-box" style="border:2px solid #4CAF50">
+            <h2 style="color:#2E7D32">🌾 تفاصيل المحصول</h2>
+            <div id="detailContent" style="text-align:right; margin:20px 0; line-height:2; font-size:16px;"></div>
+            <button class="btn-close btn-detail" onclick="closeDetail()">رجوع</button>
+        </div>
+    </div>
+
+<script>
+    let currentUser = JSON.parse(localStorage.getItem('farm_currentUser'));
+    if(!currentUser){
+        window.location.href = 'login.html';
+    } else {
+        // شيلنا الاسم الجنب زر الخروج - خلينا خروج بس
+        document.getElementById('loginNav').innerHTML = `<a href="#" onclick="logout()" style="background:#e53935;color:#fff;border-color:#e53935; display:inline-block; border-radius:25px; padding:8px 18px; text-decoration:none; font-weight:700;">خروج</a>`;
+        // رجعنا جملة الترحيب التحت
+        document.getElementById('welcomeMsg').innerText = `مرحبا بك يا ${currentUser.name} في نظامك الذكي`;
+    }
+
+    function logout(){
+        localStorage.removeItem('farm_currentUser');
+        window.location.href='login.html';
+    }
+
+    const agriculturalTips = [
+        "أفضل وقت لري النباتات هو في الصباح الباكر أو عند الغروب لتجنب التبخر.",
+        "تأكد من فحص أوراق الشجر دورياً للتأكد من خلوها من الآفات الحشرية.",
+        "إضافة السماد العضوي يحسن جودة التربة ويزيد من إنتاجية المحصول.",
+        "لا تسقِ النباتات بكثرة، فالكثير من الماء قد يؤدي لتعفن الجذور.",
+        "تقليم الأغصان الميتة يساعد النبات على تركيز طاقته في النمو الجديد."
+    ];
+    function showRandomTip() {
+        const toast = document.getElementById('tipToast');
+        const textElement = document.getElementById('tipText');
+        textElement.innerText = agriculturalTips[Math.floor(Math.random()*agriculturalTips.length)];
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 6000);
+    }
+
+    function checkHarvest(){
+        let allCrops = JSON.parse(localStorage.getItem('farm_allCrops')||'[]');
+        let myCrops = allCrops.filter(c => c.userId === currentUser.id);
+        let today = new Date(); today.setHours(0,0,0,0);
+        let alertCrops = [];
+        myCrops.forEach(c=>{
+            let hDate = new Date(c.plantDate);
+            hDate.setDate(hDate.getDate() + c.duration);
+            hDate.setHours(0,0,0,0);
+            let diff = Math.ceil((hDate - today)/(1000*60*60*24));
+            if(diff <= 1 && diff >= 0){
+                alertCrops.push({...c, harvestDateObj: hDate, daysLeft: diff});
+            }
+        });
+        if(alertCrops.length > 0){
+            document.getElementById('harvestCount').innerText = `عندك ${alertCrops.length} محصول موعد حصادو قرب (باقي يوم أو أقل)`;
+            let listDiv = document.getElementById('harvestList');
+            listDiv.innerHTML = '';
+            alertCrops.forEach(c=>{
+                let div = document.createElement('div');
+                div.className = 'harvest-item';
+                div.innerHTML = `🌾 ${c.name} - باقي ${c.daysLeft===0?'اليوم':'يوم واحد'}`;
+                div.onclick = ()=> showDetail(c);
+                listDiv.appendChild(div);
+            });
+            document.getElementById('harvestOverlay').style.display='flex';
+        } else {
+            setTimeout(showRandomTip, 2000);
+            setInterval(showRandomTip, 60000);
+        }
+    }
+
+    function showDetail(crop){
+        let hDate = crop.harvestDateObj.toLocaleDateString('ar-EG');
+        document.getElementById('detailContent').innerHTML = `
+            <b>اسم المحصول:</b> ${crop.name}<br>
+            <b>تاريخ الزراعة:</b> ${crop.plantDate}<br>
+            <b>مدة النمو:</b> ${crop.duration} يوم<br>
+            <b>تاريخ الحصاد المتوقع:</b> ${hDate}<br>
+            <b>الأيام المتبقية:</b> ${crop.daysLeft===0?'اليوم هو موعد الحصاد 🎉':'باقي يوم واحد فقط ⏰'}<br>
+            <b>الحالة:</b> ${crop.daysLeft===0?'جاهز للحصاد':'اقترب الحصاد'}
+        `;
+        document.getElementById('detailOverlay').style.display='flex';
+    }
+    function closeHarvest(){ document.getElementById('harvestOverlay').style.display='none'; showRandomTip(); setInterval(showRandomTip, 60000); }
+    function closeDetail(){ document.getElementById('detailOverlay').style.display='none'; }
+
+    window.onload = checkHarvest;
+</script>
+</body>
+</html>
